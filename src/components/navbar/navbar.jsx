@@ -98,13 +98,15 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <ul className="hidden md:flex space-x-6 text-[#B3B3B3] text-[18px] font-family font-normal">
             <li>
-              <a>Events</a>
+              <a className="text-[#FFFFFF] cursor-pointer">Events</a>
             </li>
             <li>
-              <a>My Tickets</a>
+              <a className="cursor-pointer hover:text-[#FFFFFF]">My Tickets</a>
             </li>
             <li>
-              <a>About Projects</a>
+              <a className="cursor-pointer hover:text-[#FFFFFF]">
+                About Projects
+              </a>
             </li>
           </ul>
           {/* Cta Button */}
