@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
     <nav className="bg-[#052F35]  px-3 py-4  mx-30 rounded-3xl border border-solid border-[#0E464F] font-family">
       <div className="container mx-auto flex items-center justify-between">
         {/* logo */}
-        <a
-          href="#"
+        <Link
+          to="/"
           className="flex items-center justify-center"
           aria-label="Home"
         >
@@ -101,19 +102,20 @@ export default function Navbar() {
               </g>
             </svg>
           </span>
-        </a>
+        </Link>
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-[#B3B3B3] text-[18px] font-family font-normal">
-          <li>
-            <a className="text-[#FFFFFF] cursor-pointer" tabIndex="0">
-              Events
-            </a>
-          </li>
-          <li>
-            <a className="cursor-pointer hover:text-[#FFFFFF]" tabIndex="0">
-              My Tickets
-            </a>
-          </li>
+          <Link to="/" className="text-[#FFFFFF] cursor-pointer" tabIndex="0">
+            Events
+          </Link>
+
+          <Link
+            to="/attendee"
+            className="cursor-pointer hover:text-[#FFFFFF]"
+            tabIndex="0"
+          >
+            My Tickets
+          </Link>
           <li>
             <a className="cursor-pointer hover:text-[#FFFFFF]" tabIndex="0">
               About Projects
@@ -121,12 +123,15 @@ export default function Navbar() {
           </li>
         </ul>
         {/* Cta Button */}
-        <button className="bg-[#FFFFFF] text-[#0A0C11] uppercase px-6 py-2 rounded-[12px] md:block text-sm  sm:text-base sm:ml-1.5 md:text-lg relative group transition-all cursor-pointer hover:bg-[#24A0B5] hover:text-[#D9D9D9] hover:border-1 hover:border-solid hover:border-[#D9D9D9] hover:leading-[20px]">
+        <Link
+          to="/attendee"
+          className="bg-[#FFFFFF] text-[#0A0C11] uppercase px-6 py-2 rounded-[12px] md:block text-sm  sm:text-base sm:ml-1.5 md:text-lg relative group transition-all cursor-pointer hover:bg-[#24A0B5] hover:text-[#D9D9D9] hover:border-1 hover:border-solid hover:border-[#D9D9D9] hover:leading-[20px]"
+        >
           My Tickets{" "}
           <span className="inline-block transition-transform group-hover:rotate-[-30deg]">
             &rarr;
           </span>
-        </button>
+        </Link>
       </div>
     </nav>
   );

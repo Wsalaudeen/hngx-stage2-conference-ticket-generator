@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const tickets = [
   {
@@ -120,9 +121,13 @@ function Ticketlist() {
             <button className="w-full sm:w-1/2 py-3 px-6 rounded-lg font-family text-[#24A0B5]  text-[16px] font-normal leading-[150%] transition-colors border border-solid  border-[#24A0B5] cursor-pointer ">
               Cancel
             </button>
-            <button className="w-full sm:w-1/2 py-3 px-3 rounded-lg font-family text-[#fffff] bg-[#24A0B5] cursor-pointer">
+
+            <Link
+              to="/attendee"
+              className="w-full sm:w-1/2 py-3 px-3 rounded-lg font-family text-[#fffff] bg-[#24A0B5] text-center cursor-pointer"
+            >
               Next
-            </button>
+            </Link>
           </div>
         </div>
       </div>
