@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const tickets = [
@@ -12,12 +12,72 @@ const tickets = [
   { type: "VVIP", price: "$150", seats: "20/52", access: "VVIP ACCESS" },
 ];
 
+const CustomAlert = ({ message }) => (
+  <div
+    className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+    role="alert"
+  >
+    <span className="block sm:inline">{message}</span>
+  </div>
+);
+
 function Ticketlist() {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [ticketCount, setTicketCount] = useState(1);
+  const [errors, setErrors] = useState({
+    ticket: false,
+    quantity: false,
+  });
+  const [showError, setShowError] = useState(false);
+
+  //localStorage persistence
+
+  useEffect(() => {
+    const levelSaved = localStorage.getItem("level");
+    const quantitySaved = localStorage.getItem("quantity");
+
+    if (levelSaved) setSelectedTicket(levelSaved.toUpperCase());
+
+    if (quantitySaved) setTicketCount(Number(quantitySaved));
+  }, []);
+
+  const handleTicketSelection = (value) => {
+    setSelectedTicket(value);
+    localStorage.setItem("level", value.toLowerCase());
+    clearErrors();
+  };
+
+  const handleQuantityChange = (value) => {
+    setTicketCount(value);
+    localStorage.setItem("quantity", value.toString());
+    clearErrors();
+  };
+
+  const clearErrors = () => {
+    setErrors({});
+    setShowError(false);
+  };
+
+  const handleNext = (event) => {
+    const validationErrors = {
+      ticket: !selectedTicket ? "Please select a ticket type" : null,
+      quantity:
+        !ticketCount || ticketCount < 1
+          ? "Please select a valid quantity"
+          : null,
+    };
+
+    const hasErrors = Object.values(validationErrors).some(Boolean);
+
+    if (hasErrors) {
+      setErrors(validationErrors);
+      setShowError(true);
+      event.preventDefault(); // Prevents navigation
+    }
+  };
 
   return (
-    <div className="min-h-screen  p-4 flex items-center justify-center">
+    <main className="min-h-screen  p-4 flex items-center justify-center">
       <div className="w-full max-w-2xl bg-[#041E23] text-[#FFFFFF] rounded-[40px] p-12 border border-solid border-[#0E464F]">
         <div className="space-y-4">
           <div className="flex justify-between items-center">
@@ -28,7 +88,6 @@ function Ticketlist() {
               Step 1/3
             </span>
           </div>
-
           {/* Progress Bar */}
           <div className="w-full h-1 bg-[#0E464F] rounded-full">
             <div className="h-full w-1/3 bg-[#24A0B5] rounded-full"></div>
@@ -60,20 +119,28 @@ function Ticketlist() {
             </div>
           </div>
 
-          <div className="w-full h-1 bg-[#07373F]  rounded-[32px] border border-solid border-[#07373F]">
-            {/* <div className="h-full w-1/3 bg-[#24A0B5] rounded-full"></div> */}
-          </div>
+          <div className="w-full h-1 bg-[#07373F]  rounded-[32px] border border-solid border-[#07373F]"></div>
+
+          {showError && (
+            <CustomAlert
+              message={Object.values(errors).filter(Boolean).join(". ")}
+            />
+          )}
 
           {/* Ticket Options */}
           <div className="space-y-4">
             <h3 className="text-[16px] text-[#FAFAFA] font-Roboto leading-[150%] font-normal">
               Select Ticket Type:
             </h3>
-            <div className="grid grid-cols-1 bg-[#05222] p-4 rounded-[24px] border border-solid border-[#07373F] sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div
+              className={`grid grid-cols-1 bg-[#05222] p-4 rounded-[24px] border border-solid ${
+                errors.ticket ? "border-red-500" : "border-[#07373F]"
+              } sm:grid-cols-2 lg:grid-cols-3 gap-4`}
+            >
               {tickets.map((ticket) => (
                 <button
                   key={ticket.type}
-                  onClick={() => setSelectedTicket(ticket.type)}
+                  onClick={() => handleTicketSelection(ticket.type)}
                   className={`p-3 rounded-[12px] border transition-all hover:bg-[#2C545B] hover:border hover:border-solid hover:border-[#197686] ${
                     selectedTicket === ticket.type
                       ? "bg-[#12464E] border border-solid border-[#197686] cursor-pointer"
@@ -105,11 +172,13 @@ function Ticketlist() {
             <select
               id="ticketCount"
               value={ticketCount}
-              onChange={(e) => setTicketCount(Number(e.target.value))}
-              className="w-full p-3 rounded-[12px] border border-solid border-[#07373f] focus:ring-2 focus:ring-bg-[#07373f] focus:border-transparent"
+              onChange={(e) => handleQuantityChange(Number(e.target.value))}
+              className={`w-full p-3 rounded-[12px] border border-solid ${
+                errors.quantity ? "border-red-500" : "border-[#07373f]"
+              } focus:ring-2 focus:ring-bg-[#07373f] focus:border-transparent bg-[#07373f] text-white`}
             >
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                <option key={num} value={num} className="bg-[#07373f]">
+              {[...Array(11).keys()].map((num) => (
+                <option key={num} value={num} className="bg-[#07373F]">
                   {num}
                 </option>
               ))}
@@ -124,14 +193,15 @@ function Ticketlist() {
 
             <Link
               to="/attendee"
-              className="w-full sm:w-1/2 py-3 px-3 rounded-lg font-family text-[#fffff] bg-[#24A0B5] text-center cursor-pointer"
+              onClick={handleNext}
+              className="w-full sm:w-1/2 py-3 px-3 rounded-lg font-family text-[#ffffff] bg-[#24A0B5] text-center cursor-pointer"
             >
               Next
             </Link>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
