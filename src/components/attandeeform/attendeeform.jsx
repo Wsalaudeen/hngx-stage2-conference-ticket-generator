@@ -1,8 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../navbar/navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Attendeeform(props) {
+export default function Attendeeform() {
+  const [profileImage, setProfileImage] = useState("");
+  const [ImagePreview, setImagePreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const cloud_name = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const upload_preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+  const handleImageChange = (e) => {
+    setProfileImage(e.target.files[0]);
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
+  };
+  const uploadImage = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      let imageURL;
+      if (
+        profileImage &&
+        (profileImage.type === "image/png" ||
+          profileImage.type === "image/jpg" ||
+          profileImage.type === "image/jpeg")
+      ) {
+        const image = new FormData();
+        image.append("file", profileImage);
+        image.append("cloud_name", cloud_name);
+        image.append("upload_preset", upload_preset);
+
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+          {
+            method: "post",
+            body: image,
+          }
+        );
+        const imgData = await response.json();
+        imageURL = imgData.url.toString();
+        setImagePreview(null);
+      }
+      // Save to localStorage
+      localStorage.setItem("profileImageURL", imageURL);
+      // alert(`Image uploaded successfully! URL: ${imageURL}`);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <main
       className="min-h-screen pt-4"
@@ -34,41 +83,77 @@ export default function Attendeeform(props) {
                   Upload Profile Photo
                 </label>
                 <div className=" relative h-[120px] aspect-square mt-8 max-w-[600px] w-full mx-auto bg-[#041E23]  flex items-center justify-center">
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[180px] h-[180px] rounded-[32px] border-4 border-[#24a0b5]  cursor-pointer flex flex-col items-center justify-center text-center p-6 bg-[#0E464F]">
+                  <form
+                    onSubmit={uploadImage}
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[180px] h-[180px] rounded-[32px] border-4 border-[#24a0b5] cursor-pointer flex flex-col items-center justify-center text-center p-6 bg-[#0E464F]"
+                    style={{
+                      backgroundImage: ImagePreview
+                        ? `url(${ImagePreview})`
+                        : "none",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
                     <label
-                      for="profile-upload"
+                      htmlFor="profile-upload"
+                      role="button"
+                      aria-label="Upload an image"
                       className="cursor-pointer flex flex-col items-center justify-center"
                     >
-                      <svg
-                        className="w-8 h-8 mb-2 flex align-center justify-center"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
-                        viewBox="0 0 32 32"
-                        fill="none"
-                      >
-                        <path
-                          d="M25.2639 14.816C24.6812 10.2267 20.7505 6.66669 16.0052 6.66669C12.3305 6.66669 9.13854 8.81469 7.68121 12.2C4.81721 13.056 2.67188 15.76 2.67188 18.6667C2.67188 22.3427 5.66254 25.3334 9.33854 25.3334H10.6719V22.6667H9.33854C7.13321 22.6667 5.33854 20.872 5.33854 18.6667C5.33854 16.7947 6.93721 14.9907 8.90254 14.6454L9.67721 14.5094L9.93321 13.7654C10.8705 11.0307 13.1972 9.33335 16.0052 9.33335C19.6812 9.33335 22.6719 12.324 22.6719 16V17.3334H24.0052C25.4759 17.3334 26.6719 18.5294 26.6719 20C26.6719 21.4707 25.4759 22.6667 24.0052 22.6667H21.3385V25.3334H24.0052C26.9465 25.3334 29.3385 22.9414 29.3385 20C29.337 18.8047 28.9347 17.6444 28.196 16.7047C27.4574 15.7649 26.425 15.0999 25.2639 14.816Z"
-                          fill="#FAFAFA"
-                        />
-                        <path
-                          d="M17.3385 18.6667V13.3334H14.6719V18.6667H10.6719L16.0052 25.3334L21.3385 18.6667H17.3385Z"
-                          fill="#FAFAFA"
-                        />
-                      </svg>
-
-                      <p className="text-[16px] font-Roboto leading-[150%]  font-normal text-[#FAFAFA]">
-                        Drag & drop or click to upload
-                      </p>
+                      {!ImagePreview && (
+                        <>
+                          <svg
+                            className="w-8 h-8 mb-2 flex align-center justify-center"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            viewBox="0 0 32 32"
+                            fill="none"
+                          >
+                            <path
+                              d="M25.2639 14.816C24.6812 10.2267 20.7505 6.66669 16.0052 6.66669C12.3305 6.66669 9.13854 8.81469 7.68121 12.2C4.81721 13.056 2.67188 15.76 2.67188 18.6667C2.67188 22.3427 5.66254 25.3334 9.33854 25.3334H10.6719V22.6667H9.33854C7.13321 22.6667 5.33854 20.872 5.33854 18.6667C5.33854 16.7947 6.93721 14.9907 8.90254 14.6454L9.67721 14.5094L9.93321 13.7654C10.8705 11.0307 13.1972 9.33335 16.0052 9.33335C19.6812 9.33335 22.6719 12.324 22.6719 16V17.3334H24.0052C25.4759 17.3334 26.6719 18.5294 26.6719 20C26.6719 21.4707 25.4759 22.6667 24.0052 22.6667H21.3385V25.3334H24.0052C26.9465 25.3334 29.3385 22.9414 29.3385 20C29.337 18.8047 28.9347 17.6444 28.196 16.7047C27.4574 15.7649 26.425 15.0999 25.2639 14.816Z"
+                              fill="#FAFAFA"
+                            />
+                            <path
+                              d="M17.3385 18.6667V13.3334H14.6719V18.6667H10.6719L16.0052 25.3334L21.3385 18.6667H17.3385Z"
+                              fill="#FAFAFA"
+                            />
+                          </svg>
+                          <p className="text-[16px] font-Roboto leading-[150%] font-normal text-[#FAFAFA]">
+                            Drag & drop or click to upload
+                          </p>
+                        </>
+                      )}
                     </label>
+
                     <input
                       id="profile-upload"
                       type="file"
-                      class="hidden"
+                      accept="image/jpeg,image/png,image/jpeg"
+                      className="text-[#ffffff] hidden"
+                      name="image"
+                      onChange={handleImageChange}
                       aria-label="Upload Profile Photo"
                       required
                     />
-                  </div>
+                    <p>
+                      {isLoading ? (
+                        <h3 className="text-[#ffffff] font-Alatsi text-[32px] font-[700px]">
+                          Uploading...
+                        </h3>
+                      ) : (
+                        ImagePreview && (
+                          <button
+                            type="submit"
+                            className="text-[#ffffff] font-family text-[32px] font-[700px] cursor-pointer"
+                          >
+                            Upload Image
+                          </button>
+                        )
+                      )}
+                    </p>
+                  </form>
                 </div>
               </div>
             </div>
@@ -83,8 +168,8 @@ export default function Attendeeform(props) {
               Enter your name
             </label>
             <input
-              id="name"
               type="text"
+              aria-label="Input your name here "
               class="w-full p-3 rounded-[12px] placeholder-[#ffff]  bg-[#07373F] border border-solid border-[#07373F] focus:ring-2 focus:ring-[#07373F] focus:outline-none"
               required
             />
@@ -100,8 +185,8 @@ export default function Attendeeform(props) {
                 ✉️
               </span>
               <input
-                id="email"
                 type="email"
+                aria-label="input your email address here"
                 class="w-full pl-10 p-3  rounded-[12px] placeholder-[#ffffff] bg-[#07373F] border border-solid border-[#07373F] focus:ring-2 focus:ring-[#07373F] focus:outline-none"
                 placeholder="hello@aviolagos.io"
                 required
@@ -115,7 +200,7 @@ export default function Attendeeform(props) {
               Special request?
             </label>
             <textarea
-              id="special-request"
+              aria-label="write a special request for the programme"
               class="w-full p-3 h-[127px] rounded-[12px] placeholder-[#AAAAAA] bg-[#07373F] border border-solid border-[#07373F] focus:ring-2 focus:ring-[#07373F] focus:outline-none"
               placeholder="Textarea"
             ></textarea>
@@ -128,13 +213,12 @@ export default function Attendeeform(props) {
               >
                 Back
               </Link>
-              <Link
-                to="/success"
+              <button
                 type="submit"
                 class="w-full  sm:w-1/2 py-3 px-3 rounded-lg font-family text-[#ffffff] bg-[#24A0B5] text-center cursor-pointer"
               >
                 Get My Free Ticket
-              </Link>
+              </button>
             </div>
           </form>
         </div>

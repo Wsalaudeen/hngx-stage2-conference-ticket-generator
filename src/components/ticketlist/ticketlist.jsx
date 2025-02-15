@@ -187,9 +187,12 @@ function Ticketlist() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button className="w-full sm:w-1/2 py-3 px-6 rounded-lg font-family text-[#24A0B5]  text-[16px] font-normal leading-[150%] transition-colors border border-solid  border-[#24A0B5] cursor-pointer ">
+            <Link
+              to="/"
+              className="w-full sm:w-1/2 py-3 px-6 rounded-lg font-family text-[#24A0B5] text-center text-[16px] font-normal leading-[150%] transition-colors border border-solid  border-[#24A0B5] cursor-pointer "
+            >
               Cancel
-            </button>
+            </Link>
 
             <Link
               to="/attendee"
