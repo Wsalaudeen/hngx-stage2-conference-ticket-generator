@@ -6,6 +6,13 @@ export default function Attendeeform() {
   const [profileImage, setProfileImage] = useState("");
   const [ImagePreview, setImagePreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    specialRequest: "",
+  });
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const cloud_name = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const upload_preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -43,12 +50,57 @@ export default function Attendeeform() {
       }
       // Save to localStorage
       localStorage.setItem("profileImageURL", imageURL);
-      // alert(`Image uploaded successfully! URL: ${imageURL}`);
+      alert(`Image uploaded successfully! URL: ${imageURL}`);
     } catch (error) {
       console.log(error);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // const handleInputChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    // Clear error when user starts typing
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.name?.trim()) newErrors.name = "Name is required.";
+    if (!formData.email?.trim()) newErrors.email = "Email is required.";
+    if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Enter a valid email address.";
+    if (!formData.specialRequest?.trim())
+      newErrors.specialRequest = "Special request is required.";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      //store data in localStorage
+      localStorage.setItem("userData", JSON.stringify(formData));
+      navigate("/success");
     }
   };
 
@@ -160,7 +212,7 @@ export default function Attendeeform() {
           </div>
           {/* straight line */}
           <div className="w-full h-1 bg-[#07373F] mt-8 rounded-[32px] border border-solid border-[#07373F]"></div>
-          <form class="mt-4">
+          <form class="mt-4" onSubmit={handleInputSubmit}>
             <label
               for="name"
               class="block mb-1 font-Roboto leading-[150%] text-[16px] font-normal text-[#FAFAFA]"
@@ -169,10 +221,18 @@ export default function Attendeeform() {
             </label>
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
               aria-label="Input your name here "
               class="w-full p-3 rounded-[12px] placeholder-[#ffff]  bg-[#07373F] border border-solid border-[#07373F] focus:ring-2 focus:ring-[#07373F] focus:outline-none"
               required
             />
+            {errors.name && (
+              <p className="text-red-700 text-[20px] font-Alatsi">
+                {errors.name}
+              </p>
+            )}
 
             <label
               for="email"
@@ -186,12 +246,20 @@ export default function Attendeeform() {
               </span>
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 aria-label="input your email address here"
                 class="w-full pl-10 p-3  rounded-[12px] placeholder-[#ffffff] bg-[#07373F] border border-solid border-[#07373F] focus:ring-2 focus:ring-[#07373F] focus:outline-none"
                 placeholder="hello@aviolagos.io"
                 required
               />
             </div>
+            {errors.email && (
+              <p className="text-red-700 text-[20px] font-Alatsi">
+                {errors.email}
+              </p>
+            )}
 
             <label
               for="special-request"
@@ -200,11 +268,18 @@ export default function Attendeeform() {
               Special request?
             </label>
             <textarea
+              name="specialRequest"
+              value={formData.specialRequest}
+              onChange={handleInputChange}
               aria-label="write a special request for the programme"
               class="w-full p-3 h-[127px] rounded-[12px] placeholder-[#AAAAAA] bg-[#07373F] border border-solid border-[#07373F] focus:ring-2 focus:ring-[#07373F] focus:outline-none"
               placeholder="Textarea"
             ></textarea>
-
+            {errors.specialRequest && (
+              <p className="text-red-700 text-[20px] font-Alatsi">
+                {errors.specialRequest}
+              </p>
+            )}
             <div class="flex flex-col sm:flex-row gap-4 pt-4">
               <Link
                 to="/"
@@ -214,6 +289,7 @@ export default function Attendeeform() {
                 Back
               </Link>
               <button
+                onClick={handleInputSubmit}
                 type="submit"
                 class="w-full  sm:w-1/2 py-3 px-3 rounded-lg font-family text-[#ffffff] bg-[#24A0B5] text-center cursor-pointer"
               >
