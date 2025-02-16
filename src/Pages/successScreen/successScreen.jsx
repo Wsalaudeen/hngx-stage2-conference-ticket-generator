@@ -60,7 +60,7 @@ function successScreen() {
                     Enter your name
                   </label>
                   <p className="text-[#ffffff] font-Roboto font-[700px] leading-[150%]">
-                    {formData.name}
+                    Avi Chukwu
                   </p>
                 </div>
                 <div className="mb-2">
@@ -68,31 +68,28 @@ function successScreen() {
                     Enter your email
                   </label>
                   <p className="text-[#ffffff] font-Roboto font-[700px] leading-[150%]">
-                    {formData.email}
+                    User@email.com
                   </p>
                 </div>
                 <div className="flex justify-between mb-2 text-sm">
                   <p className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Ticket Type:
                   </p>
-                  <p className="text-white font-medium">
-                    {formData.ticketType}
-                  </p>
+                  <p className="text-white font-medium">VIP</p>
                 </div>
                 <div className="flex justify-between mb-2 text-sm">
                   <p className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Ticket for:
                   </p>
-                  <p className="text-[#fffff] font-medium">
-                    {formData.ticketFor}
-                  </p>
+                  <p className="text-[#fffff] font-medium">1</p>
                 </div>
                 <div>
                   <label className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Special request?
                   </label>
                   <p className="text-[#ffffff] font-Roboto leading-[15px] text-[12px]">
-                    {formData.specialRequest}
+                    Nil ? Or the users sad story they write in there gets this
+                    whole space, Max of three rows
                   </p>
                 </div>
               </div>
