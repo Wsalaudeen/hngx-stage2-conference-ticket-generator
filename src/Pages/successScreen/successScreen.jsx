@@ -6,7 +6,7 @@ function successScreen() {
   const [ticketLevel, setTicketLevel] = useState(null);
   const [quantity, setQuantity] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageURL, setProfileImageURL] = useState(null);
 
   useEffect(() => {
     try {
@@ -22,7 +22,7 @@ function successScreen() {
       if (savedUserData) {
         setUserData(JSON.parse(savedUserData));
       }
-      if (savedProfileImage) setProfileImage(savedProfileImage);
+      if (savedProfileImage) setProfileImageURL(savedProfileImage);
     } catch (error) {
       console.error("Error loading data from localStorage:", error);
     }
@@ -73,7 +73,7 @@ function successScreen() {
 
               <div className="flex justify-center my-4">
                 <img
-                  src={profileImage || "/placeholder.png"}
+                  src={profileImageURL || "/placeholder.png"}
                   alt="User"
                   className="w-24 h-24 rounded-lg object-cover"
                 />

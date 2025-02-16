@@ -46,11 +46,12 @@ export default function Attendeeform() {
         );
         const imgData = await response.json();
         imageURL = imgData.url.toString();
+        console.log(imageURL);
         setImagePreview(null);
       }
-      // Save to localStorage
+      alert(`Image uploaded successfully! URL: ${imageURL}`);
       localStorage.setItem("profileImageURL", imageURL);
-      // alert(`Image uploaded successfully! URL: ${imageURL}`);
+      // Save to localStorage
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -191,14 +192,14 @@ export default function Attendeeform() {
                     />
                     <p>
                       {isLoading ? (
-                        <h3 className="text-[#ffffff] font-Alatsi text-[32px] font-[700px]">
-                          Uploading...
-                        </h3>
+                        <span className="text-[#08252b] font-Alatsi text-[32px] text- font-[700px]">
+                          Upload Successful!!!
+                        </span>
                       ) : (
                         ImagePreview && (
                           <button
                             type="submit"
-                            className="text-[#ffffff] font-family text-[32px] font-[700px] cursor-pointer"
+                            className="text-[#08252b] font-family text-[32px] font-[700px] cursor-pointer"
                           >
                             Upload Image
                           </button>
