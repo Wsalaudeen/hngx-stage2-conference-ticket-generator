@@ -192,14 +192,14 @@ export default function Attendeeform() {
                     />
                     <p>
                       {isLoading ? (
-                        <span className="text-[#08252b] font-Alatsi text-[32px] text- font-[700px]">
+                        <span className="text-yellow-500 font-Alatsi text-[32px] text- font-[700px]">
                           Successfully Uploaded!!
                         </span>
                       ) : (
                         ImagePreview && (
                           <button
                             type="submit"
-                            className="text-red-500 font-family text-[32px] font-[700px] cursor-pointer"
+                            className="text-red-500 font-family text-[32px] font-[800px] cursor-pointer"
                           >
                             Click To Upload Image
                           </button>
