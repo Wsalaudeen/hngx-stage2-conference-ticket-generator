@@ -10,13 +10,11 @@ function successScreen() {
 
   useEffect(() => {
     try {
-      // Get all required data from localStorage
       const savedLevel = localStorage.getItem("level");
       const savedQuantity = localStorage.getItem("quantity");
       const savedUserData = localStorage.getItem("userData");
       const savedProfileImage = localStorage.getItem("profileImageURL");
 
-      // Set the states with parsed data
       setTicketLevel(savedLevel);
       setQuantity(savedQuantity);
       if (savedUserData) {
@@ -48,7 +46,6 @@ function successScreen() {
                 step 3/3
               </span>
             </div>
-            {/* progress Bar */}
             <div className="w-full h-1 bg-[#0E464F] rounded-full">
               <div className="h-full w-3/3 bg-[#24A0B5] rounded-full"></div>
             </div>

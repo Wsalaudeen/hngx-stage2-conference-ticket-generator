@@ -5,7 +5,6 @@ export default function Navbar() {
   return (
     <nav className="bg-[#041E23]  px-3 py-4  mx-30 rounded-3xl border border-solid border-[#0E464F] font-family">
       <div className="container mx-auto flex items-center justify-between">
-        {/* logo */}
         <Link
           to="/"
           className="flex items-center justify-center"

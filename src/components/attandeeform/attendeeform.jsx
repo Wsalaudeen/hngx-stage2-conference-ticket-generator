@@ -60,13 +60,6 @@ export default function Attendeeform() {
     }
   };
 
-  // const handleInputChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -125,12 +118,10 @@ export default function Attendeeform() {
                 step 2/3
               </span>
             </div>
-            {/* progress Bar */}
             <div className="w-full h-1 bg-[#0E464F] rounded-full">
               <div className="h-full w-2/3 bg-[#24A0B5] rounded-full"></div>
             </div>
             <div className="space-y-6 mt-2 px-6 pt-5 pb-12 bg-[#08252B] rounded-[24px] border border-solid border-[#0E464F]">
-              {/* upload section */}
               <div className="space-y-2">
                 <label className="text-[16px] text-[#FAFAFA] font-Roboto font-normal leading-[150%] pb-3">
                   Upload Profile Photo
@@ -192,14 +183,14 @@ export default function Attendeeform() {
                     />
                     <p>
                       {isLoading ? (
-                        <span className="text-yellow-500 font-Alatsi text-[32px] text- font-[700px]">
+                        <span className="text-yellow-700 font-Alatsi text-[32px] text- font-[700px]">
                           Successfully Uploaded!!
                         </span>
                       ) : (
                         ImagePreview && (
                           <button
                             type="submit"
-                            className="text-red-500 font-family text-[32px] font-[800px] cursor-pointer"
+                            className="text-red-700 font-family text-[32px] font-[800px] cursor-pointer"
                           >
                             Click To Upload Image
                           </button>
@@ -211,7 +202,6 @@ export default function Attendeeform() {
               </div>
             </div>
           </div>
-          {/* straight line */}
           <div className="w-full h-1 bg-[#07373F] mt-8 rounded-[32px] border border-solid border-[#07373F]"></div>
           <form class="mt-4" onSubmit={handleInputSubmit}>
             <label
