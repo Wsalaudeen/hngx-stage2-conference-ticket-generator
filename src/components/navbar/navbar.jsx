@@ -125,10 +125,10 @@ export default function Navbar() {
         {/* Cta Button */}
         <Link
           to="/attendee"
-          className="bg-[#FFFFFF] text-[#0A0C11] uppercase px-6 py-2 rounded-[12px] md:block text-sm  sm:text-base sm:ml-1.5 md:text-lg relative group transition-all cursor-pointer hover:bg-[#24A0B5] hover:text-[#D9D9D9] hover:border-1 hover:border-solid hover:border-[#D9D9D9] hover:leading-[20px]"
+          className="bg-[#FFFFFF] ml-0.5 text-[#0A0C11] font-family uppercase px-4 py-3 sm:px-6 sm:py-2 rounded-[12px] text-xs sm:text-sm md:text-[16px] inline-flex items-center max-w-max transition-all cursor-pointer hover:bg-[#24A0B5] hover:text-[#D9D9D9] hover:border hover:border-solid hover:border-[#D9D9D9] hover:leading-[20px]"
         >
           My Tickets{" "}
-          <span className="inline-block transition-transform group-hover:rotate-[-30deg]">
+          <span className="ml-1 text-xs sm:text-sm transition-transform group-hover:rotate-[-30deg]">
             &rarr;
           </span>
         </Link>
