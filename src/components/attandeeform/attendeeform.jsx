@@ -14,7 +14,7 @@ export default function Attendeeform() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  // const cloud_name = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const cloud_name = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const upload_preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
   const handleImageChange = (e) => {
@@ -34,11 +34,11 @@ export default function Attendeeform() {
       ) {
         const image = new FormData();
         image.append("file", profileImage);
-        image.append("cloud_name", "dl8wl0kpu");
+        image.append("cloud_name", cloud_name);
         image.append("upload_preset", upload_preset);
 
         const response = await fetch(
-          "https://api.cloudinary.com/v1_1/dl8wl0kpu/image/upload",
+          `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
           {
             method: "post",
             body: image,
