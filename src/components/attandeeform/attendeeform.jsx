@@ -50,7 +50,7 @@ export default function Attendeeform() {
       }
       // Save to localStorage
       localStorage.setItem("profileImageURL", imageURL);
-      alert(`Image uploaded successfully! URL: ${imageURL}`);
+      // alert(`Image uploaded successfully! URL: ${imageURL}`);
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -293,7 +293,7 @@ export default function Attendeeform() {
                 type="submit"
                 class="w-full  sm:w-1/2 py-3 px-3 rounded-lg font-family text-[#ffffff] bg-[#24A0B5] text-center cursor-pointer"
               >
-                Get My Free Ticket
+                Get Ticket
               </button>
             </div>
           </form>

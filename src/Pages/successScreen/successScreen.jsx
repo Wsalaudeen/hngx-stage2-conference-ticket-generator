@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/navbar/navbar";
 import { Link } from "react-router-dom";
 
@@ -48,7 +48,7 @@ function successScreen() {
 
               <div className="flex justify-center my-4">
                 <img
-                  src="/mnt/data/Container.png"
+                  src="/"
                   alt="User"
                   className="w-24 h-24 rounded-lg object-cover"
                 />
@@ -60,7 +60,7 @@ function successScreen() {
                     Enter your name
                   </label>
                   <p className="text-[#ffffff] font-Roboto font-[700px] leading-[150%]">
-                    Avi Chukwu
+                    {formData.name}
                   </p>
                 </div>
                 <div className="mb-2">
@@ -68,28 +68,31 @@ function successScreen() {
                     Enter your email
                   </label>
                   <p className="text-[#ffffff] font-Roboto font-[700px] leading-[150%]">
-                    User@email.com
+                    {formData.email}
                   </p>
                 </div>
                 <div className="flex justify-between mb-2 text-sm">
                   <p className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Ticket Type:
                   </p>
-                  <p className="text-white font-medium">VIP</p>
+                  <p className="text-white font-medium">
+                    {formData.ticketType}
+                  </p>
                 </div>
                 <div className="flex justify-between mb-2 text-sm">
                   <p className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Ticket for:
                   </p>
-                  <p className="text-[#fffff] font-medium">1</p>
+                  <p className="text-[#fffff] font-medium">
+                    {formData.ticketFor}
+                  </p>
                 </div>
                 <div>
                   <label className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Special request?
                   </label>
                   <p className="text-[#ffffff] font-Roboto leading-[15px] text-[12px]">
-                    Nil ? Or the users sad story they write in there gets this
-                    whole space, Max of three rows{" "}
+                    {formData.specialRequest}
                   </p>
                 </div>
               </div>

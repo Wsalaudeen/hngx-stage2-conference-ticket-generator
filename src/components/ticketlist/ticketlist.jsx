@@ -173,9 +173,9 @@ function Ticketlist() {
               id="ticketCount"
               value={ticketCount}
               onChange={(e) => handleQuantityChange(Number(e.target.value))}
-              className={`w-full p-3 rounded-[12px] border border-solid ${
+              className={`w-full p-3  rounded-[12px] border border-solid ${
                 errors.quantity ? "border-red-500" : "border-[#07373f]"
-              } focus:ring-2 focus:ring-bg-[#07373f] focus:border-transparent bg-[#07373f] text-white`}
+              } appearance-none  focus:ring-2 focus:ring-bg-[#07373f] focus:border-transparent bg-[#07373f] text-white`}
             >
               {[...Array(11).keys()].map((num) => (
                 <option key={num} value={num} className="bg-[#07373F]">
