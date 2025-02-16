@@ -3,6 +3,31 @@ import Navbar from "../../components/navbar/navbar";
 import { Link } from "react-router-dom";
 
 function successScreen() {
+  const [ticketLevel, setTicketLevel] = useState(null);
+  const [quantity, setQuantity] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+
+  useEffect(() => {
+    try {
+      // Get all required data from localStorage
+      const savedLevel = localStorage.getItem("level");
+      const savedQuantity = localStorage.getItem("quantity");
+      const savedUserData = localStorage.getItem("userData");
+      const savedProfileImage = localStorage.getItem("profileImageURL");
+
+      // Set the states with parsed data
+      setTicketLevel(savedLevel);
+      setQuantity(savedQuantity);
+      if (savedUserData) {
+        setUserData(JSON.parse(savedUserData));
+      }
+      if (savedProfileImage) setProfileImage(savedProfileImage);
+    } catch (error) {
+      console.error("Error loading data from localStorage:", error);
+    }
+  }, []);
+
   return (
     <main
       className="min-h-screen pt-4"
@@ -48,7 +73,7 @@ function successScreen() {
 
               <div className="flex justify-center my-4">
                 <img
-                  src="/"
+                  src={profileImage || "/placeholder.png"}
                   alt="User"
                   className="w-24 h-24 rounded-lg object-cover"
                 />
@@ -60,7 +85,7 @@ function successScreen() {
                     Enter your name
                   </label>
                   <p className="text-[#ffffff] font-Roboto font-[700px] leading-[150%]">
-                    Avi Chukwu
+                    {userData?.name || "Not provided"}
                   </p>
                 </div>
                 <div className="mb-2">
@@ -68,28 +93,31 @@ function successScreen() {
                     Enter your email
                   </label>
                   <p className="text-[#ffffff] font-Roboto font-[700px] leading-[150%]">
-                    User@email.com
+                    {userData?.email || "Not provided"}
                   </p>
                 </div>
                 <div className="flex justify-between mb-2 text-sm">
                   <p className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Ticket Type:
                   </p>
-                  <p className="text-white font-medium">VIP</p>
+                  <p className="text-white font-medium">
+                    {" "}
+                    {ticketLevel || "Not specified"}
+                  </p>
                 </div>
                 <div className="flex justify-between mb-2 text-sm">
                   <p className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
                     Ticket for:
                   </p>
-                  <p className="text-[#fffff] font-medium">1</p>
+                  <p className="text-[#fffff] font-medium">
+                    {" "}
+                    {quantity || "0"}
+                  </p>
                 </div>
                 <div>
-                  <label className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]">
-                    Special request?
-                  </label>
+                  <label className="text-[12px]   font-Roboto font-normal text-[#ffffff] leading-[150%] opacity-[0.33]"></label>
                   <p className="text-[#ffffff] font-Roboto leading-[15px] text-[12px]">
-                    Nil ? Or the users sad story they write in there gets this
-                    whole space, Max of three rows
+                    {userData?.specialRequest || "None"}
                   </p>
                 </div>
               </div>
