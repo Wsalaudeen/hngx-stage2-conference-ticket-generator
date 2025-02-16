@@ -49,7 +49,7 @@ export default function Attendeeform() {
         console.log(imageURL);
         setImagePreview(null);
       }
-      alert(`Image uploaded successfully! URL: ${imageURL}`);
+      // alert(`Image uploaded successfully! URL: ${imageURL}`);
       localStorage.setItem("profileImageURL", imageURL);
       // Save to localStorage
     } catch (error) {
@@ -193,15 +193,15 @@ export default function Attendeeform() {
                     <p>
                       {isLoading ? (
                         <span className="text-[#08252b] font-Alatsi text-[32px] text- font-[700px]">
-                          Upload Successful!!!
+                          Successfully Uploaded!!
                         </span>
                       ) : (
                         ImagePreview && (
                           <button
                             type="submit"
-                            className="text-[#08252b] font-family text-[32px] font-[700px] cursor-pointer"
+                            className="text-red-500 font-family text-[32px] font-[700px] cursor-pointer"
                           >
-                            Upload Image
+                            Click To Upload Image
                           </button>
                         )
                       )}
